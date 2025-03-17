@@ -52,7 +52,7 @@ myexpress-framework/
 
 ## License
 
-This project is licensed under the ISC License. See [LICENSE](https://github.com/Gicehajunior/myexpress-framework/blob/main/LICENSE) file for details.
+This project is licensed under the ISC License. See [License](https://github.com/Gicehajunior/myexpress-framework/blob/main/License) file for details.
 
 ---
 
