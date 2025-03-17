@@ -1,0 +1,17 @@
+body {
+    background-color: #f8f9fa;
+}
+.brand-logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+}
+.btn-custom {
+    background: #007bff;
+    color: #fff;
+}
+.btn-custom:hover {
+    background: #0056b3;
+}
+

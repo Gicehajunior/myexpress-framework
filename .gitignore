@@ -1,0 +1,5 @@
+.env
+public/main.js
+public/store
+public/bootstrap
+node_modules

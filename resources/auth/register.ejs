@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | MyExpress</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="brand-logo">MyExpress</div>
+        <h4 class="text-center mt-3">Create an Account</h4>
+        <p class="text-center text-muted">Join us today</p>
+
+        <form action="/register" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirm password" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Register</button>
+            </div>
+        </form>
+
+        <p class="text-center mt-3">
+            Already have an account? <a href="/login">Login</a>
+        </p>
+    </div>
+
+</body>
+</html>
