@@ -73,6 +73,27 @@ class AuthController {
             res.status(500).json({ status: 'error', message: 'Error logging in' });
         }
     }
+
+    static async logout(req, res) {
+        try {
+            req.session.destroy(function (err) {
+                if (err) {
+                    console.error('Error destroying session:', err);
+                    throw new Error('Error logging out');
+                }
+    
+                res.clearCookie('connect.sid'); 
+                res.redirect('/login?auth=booted-out-required-to-login-once-again');
+            });
+        } catch (error) { 
+            if (req.session) {
+                req.flash('status', 'error');
+                req.flash('message', 'Unexpected error occurred');
+            }
+            
+            res.redirect('back');
+        }
+    }
 }
 
 module.exports = AuthController;
