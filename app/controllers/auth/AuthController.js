@@ -77,12 +77,11 @@ class AuthController {
     static async logout(req, res) {
         try {
             req.session.destroy(function (err) {
-                if (err) {
-                    console.error('Error destroying session:', err);
+                if (err) { 
                     throw new Error('Error logging out');
                 }
     
-                res.clearCookie('connect.sid'); 
+                res.clearCookie(config.SESSION.SESSION_NAME ?? 'connect.sid'); 
                 res.redirect('/login?auth=booted-out-required-to-login-once-again');
             });
         } catch (error) { 
