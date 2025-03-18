@@ -1,0 +1,26 @@
+.home-container {
+    max-width: 95%;
+    margin: 15% auto;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-container .brand-logo {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.home-container h2 {
+    font-size: 24px;
+    margin-top: 10px;
+    color: #333;
+}
+
+.home-container p {
+    font-size: 16px;
+    color: #666;
+}

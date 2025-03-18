@@ -1,17 +1,29 @@
 const { DataTypes, Model } = require('sequelize');
-const db = require('../../config/database');
+const db = require('@config/database');
 
 class User extends Model {
+    static tableName = 'users';
+
     constructor() {
-        // 
+        super();
+    }
+
+    static query() { 
+        const sequelize = db.getSequelize();
+        return sequelize.define("User", {
+            id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+            username: { type: DataTypes.STRING, allowNull: true, unique: false },
+            email: { type: DataTypes.STRING, allowNull: true, unique: false },
+            contact: { type: DataTypes.STRING, allowNull: true, unique: false },
+            password: { type: DataTypes.STRING, allowNull: true },
+        }, { 
+            sequelize: sequelize,  
+            timestamps: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            tableName: User.tableName,
+        }); 
     }
 }
-
-User.init({
-    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-    username: { type: DataTypes.STRING, allowNull: false, unique: true },
-    email: { type: DataTypes.STRING, allowNull: false, unique: true },
-    password: { type: DataTypes.STRING, allowNull: false },
-}, { sequelize: db.getSequelize(), modelName: 'User' });
 
 module.exports = User;

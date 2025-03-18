@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('@models/User');
 const config = require('@config/config');
+const User = require('@models/User');
 
 class AuthController {
     static async register(req, res) {
@@ -10,33 +10,67 @@ class AuthController {
 
     static async authregister(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await User.findOne({ where: { email } });
-            if (!user) return res.status(400).json({ error: 'User not found' });
+            const username = req.body.username ?? null;
+            const email = req.body.email ?? null;
+            const contact = req.body.contact ?? null;
+            const password = req.body.password ?? null;
+            const confirmPassword = req.body.confirmPassword ?? null;
+    
+            // Check if all fields are present
+            if (!username || !email || !contact || !password || !confirmPassword) {
+                throw new Error(`All fields are required!`);
+            }
 
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-
-            const token = jwt.sign({ userId: user.id }, config.APP.JWT_SECRET, { expiresIn: '1h' });
-            res.json({ message: 'Login successful', token });
+            if (password !== confirmPassword) {
+                throw new Error(`Password mismatch error!`);
+            }
+    
+            // Check if user already exists
+            const existingUser = await User.query().findOne({ where: { email } });
+            if (existingUser) {
+                throw new Error('Email already registered'); 
+            }
+            
+            // Hash password and create user
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = await User.query().create({ username: username, email: email, contact: contact, password: hashedPassword });
+            res.status(200).json({ status: 'success', message: 'User registered successfully', redirectUrl: '/login', user });
         } catch (error) {
-            res.status(500).json({ error: 'Error logging in' });
+            console.error('Error:', error);
+            res.status(500).json({ status: 'error', message: error.message });
         }
     }
-
+    
     static async login(req, res) {
-        return res.render("auth/login", { title: "Login Page" });
+        const session = req.session.user;  
+        return res.render("auth/login", { title: "Login Page", session: session });
     }
 
     static async authlogin(req, res) {
         try {
-            const { username, email, password } = req.body;
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({ username, email, password: hashedPassword });
+            const { email, password } = req.body;
 
-            res.status(201).json({ message: 'User registered successfully', user });
+            if (!email || !password) {
+                throw new Error(`Check your Username and Password, & try again!`);
+            }
+
+            const user = await User.query().findOne({ where: { email } });
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                throw new Error('Invalid credentials');
+            }
+            
+            req.session.user = { id: user.id, username: user.username, email: user.email, contact: user.contact };
+            const token = jwt.sign(req.session.user, config.APP.JWT_SECRET, { expiresIn: '1h' });
+            req.session.token = token;
+
+            res.status(200).json({ status: 'success', redirectUrl: '/dashboard', token });
         } catch (error) {
-            res.status(500).json({ error: 'Error registering user' });
+            res.status(500).json({ status: 'error', message: 'Error logging in' });
         }
     }
 }

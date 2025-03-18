@@ -6,9 +6,10 @@ module.exports = {
         APP_NAME: process.env.APP_NAME || 'My Express',
         APP_ENV: process.env.APP_ENV || 'development',
         APP_PORT: process.env.APP_PORT || 5000,
-        APP_URL: process.env.APP_URL || 'http://127.0.0.1',
+        APP_URL: process.env.APP_URL || 'http://127.0.0.1:5000',
         APP_SECRET: process.env.APP_SECRET || 'supersecretkey',
         JWT_SECRET: process.env.JWT_SECRET || 'jwtsecretkey',
+        SESSION_SECRET: process.env.SESSION_SECRET || 'af63ff81e7d3b9d85ff76b2f59b3b7f350186bd7c0c4e513d852a0634a81c722',
         APP_DEBUG: process.env.APP_DEBUG || true,
     },
     VIEW_ENGINE: process.env.VIEW_ENGINE || 'ejs',
@@ -41,4 +42,19 @@ module.exports = {
     ROUTES: {
         PREFIX: '/api',
     },
+    SESSION: {
+        SESSION_NAME: "myexpress.auth_session", // leave empty to default to connect.sid
+        RESAVE: false,
+        PROXY: true
+    },
+    COOKIES: { 
+        MAXAGE: 24 * 60 * 60 * 1000,
+        SECURE: process.env.APP_ENV === 'production',
+        HTTPONLY: true,
+        SAMESITE: false, // or Lax, Strict, None, or false
+        MAXAGE: null,
+        PATH: '/',
+        DOMAIN: '',
+        REFRESH: true
+    }
 };
