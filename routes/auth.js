@@ -13,6 +13,9 @@ const auth = (router) => {
     // register routes
     router.get('/register', AuthController.register);
     router.post('/register', upload.none(), AuthController.authregister);
+
+    // log out route
+    router.get('/logout', AuthController.logout);
 }
 
 module.exports = auth;
