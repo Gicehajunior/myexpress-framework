@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const config = require("./config"); // Import custom configurations
+const config = require("@config/config"); // Import custom configurations
 require("dotenv").config(); // Ensure environment variables are loaded
 
 class Database {

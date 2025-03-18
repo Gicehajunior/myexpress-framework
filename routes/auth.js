@@ -1,14 +1,18 @@
 const auth = (router) => {
-    const AuthController = require('../app/controllers/auth/AuthController');
+    const multer = require('multer');
+    const AuthController = require('@app/controllers/auth/AuthController');
+    const WebController = require('@app/controllers/other/WebController');
+
+    const upload = multer();
 
     // login routes
-    router.get('/', AuthController.login);
+    router.get('/', WebController.index);
     router.get('/login', AuthController.login);
-    router.post('/login', AuthController.authlogin);
+    router.post('/login', upload.none(), AuthController.authlogin); 
 
     // register routes
     router.get('/register', AuthController.register);
-    router.post('/register', AuthController.authregister);
+    router.post('/register', upload.none(), AuthController.authregister);
 }
 
 module.exports = auth;

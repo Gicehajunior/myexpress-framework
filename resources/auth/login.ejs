@@ -1,40 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> | MyExpress</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/auth.css">
-    <link rel="stylesheet" href="assets/css/global.css">
-</head>
-<body>
+<%- include('partials/header') %>
 
-    <div class="login-container">
-        <div class="brand-logo">MyExpress</div>
-        <h4 class="text-center mt-3">Welcome Back</h4>
-        <p class="text-center text-muted">Login to your account</p>
+<div class="login-container">
+    <div class="brand-logo">MyExpress</div>
+    <h4 class="text-center mt-3">Welcome Back</h4>
+    <p class="text-center text-muted">Login to your account</p>
 
-        <form action="/login" method="POST">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required>
+    <% if (message.length > 0) { %>
+        <div class="form-group">
+            <div class="alert alert-<%= status && status == 'success' ? 'primary' : 'danger' %>" role="alert">
+                <strong>Alert:</strong> <%= message %>
             </div>
+        </div>
+    <% } %>
+    
+    <form class="login-user-form" action="/login" method="POST">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" value="gicehajunior76@gmail.com" name="email" id="email" class="form-control" placeholder="Enter email" required>
+        </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
-            </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" value="gicehajunior76@gmail.com" name="password" id="password" class="form-control" placeholder="Enter password" required>
+        </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-custom">Login</button>
-            </div>
-        </form>
+        <div class="d-grid">
+            <button type="button" class="btn btn-custom login-btn" id="login-btn">Login</button>
+        </div>
+    </form>
 
-        <p class="text-center mt-3">
-            Don't have an account? <a href="/register">Sign Up</a>
-        </p>
-    </div>
+    <p class="text-center mt-3">
+        Don't have an account? <a href="/register">Sign Up</a>
+    </p>
+</div>
 
-</body>
-</html>
+<!-- scripts -->
+<script src="default/js/src/auth.js?v1"></script>
+<!-- /scripts -->
+
+<%- include('partials/footer') %>

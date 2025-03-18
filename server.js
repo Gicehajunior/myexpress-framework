@@ -21,33 +21,98 @@
  */
 require('module-alias/register');
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
-const config = require('./config/config');
-const database = require('./config/database');
-const routes = require("./routes/app");
+const config = require('@config/config');
+const corsconfig = require('@config/cors');
+const database = require('@config/database');
+const routes = require("@routes/app"); 
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const app = express();
 
 // Middleware
-app.use(express.json());
-app.use(cors());
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+  origin: corsconfig.ORIGIN,
+  credentials: corsconfig.CREDENTIALS
+}));
 app.use(helmet());
 if (config.APP.APP_DEBUG) {
     app.use(morgan('dev'));
 }
 
-// Serve Public Assets
-app.use(express.static(config.PATHS.PUBLIC));
+// session setup
+app.use(session({
+  name: config.SESSION.SESSION_NAME || 'connect.sid',
+  secret: config.APP.SESSION_SECRET,
+  resave: config.SESSION.RESAVE,
+  saveUninitialized: true,
+  proxy: config.SESSION.PROXY,
+  cookie: {
+    secure: config.COOKIES.SECURE,
+    httpOnly: config.COOKIES.HTTPONLY,
+    sameSite: config.COOKIES.SAMESITE,
+    path: config.COOKIES.PATH,
+    maxAge: config.COOKIES.MAXAGE,
+  }
+}));
 
-const viewBase = config.PATHS.VIEWS
-const viewFolders = fs.readdirSync(viewBase).map(folder => path.join(viewBase, folder));
+if (config.COOKIES.REFRESH) {
+  // Refresh the session expiration each time the user interacts with the 
+  // application
+  app.use((req, res, next) => {
+    if (req.session) {
+      req.session.cookie.maxAge = config.COOKIES.MAXAGE;
+    }
+    next();
+  });
+}
 
-app.set("views", [viewBase, ...viewFolders]);
-app.set('view engine', config.VIEW_ENGINE);
+// Use flash session library
+// On the side, make the session flash usable on 
+// views as well.
+app.use(flash()); 
+app.use((req, res, next) => {
+  res.locals.status = req.flash('status');
+  res.locals.message = req.flash('message');
+  next();
+});
+
+// Serve Public Assets 
+app.use(express.static(config.PATHS.PUBLIC, {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+const getAllDirectories = (dirPath) => {
+  let results = [dirPath];
+  const items = fs.readdirSync(dirPath, { withFileTypes: true });
+
+  for (const item of items) {
+      const fullPath = path.join(dirPath, item.name);
+      if (item.isDirectory()) {
+          results = results.concat(getAllDirectories(fullPath)); // Recursively get subdirectories
+      }
+  }
+
+  return results;
+};
+
+const viewBase = config.PATHS.VIEWS;
+const viewFolders = getAllDirectories(viewBase);
+
+app.set("views", viewFolders);
+app.set('view engine', config.VIEW_ENGINE); 
 
 // Load Routes
 app.use(routes);
