@@ -32,6 +32,8 @@ module.exports = (env, argv) => {
                     { from: './node_modules/bootstrap/dist/js/*.js', to: 'bootstrap/js/[name][ext]' },
                     { from: './node_modules/bootstrap-datepicker/dist/css/*.css', to: 'bootstrap/css/[name][ext]' },
                     { from: './node_modules/bootstrap-datepicker/dist/js/*.js', to: 'bootstrap/js/[name][ext]' },
+                    { from: './node_modules/@fortawesome/fontawesome-free/css/*.css', to: 'assets/fontawesome/css/[name][ext]' },
+                    { from: './node_modules/@fortawesome/fontawesome-free/js/*.js', to: 'assets/fontawesome/js/[name][ext]' }, 
                     { from: './node_modules/print-js/dist/*.css', to: 'assets/printjs/css/[name][ext]' },
                     { from: './node_modules/print-js/dist/*.js', to: 'assets/printjs/js/[name][ext]' },
                     { from: './node_modules/select2/dist/css/*.css', to: 'bootstrap/css/[name][ext]' },
@@ -45,8 +47,7 @@ module.exports = (env, argv) => {
                     { from: './node_modules/datatables/media/css/*.css', to: 'assets/jquery/css/[name][ext]' },
                     { from: './node_modules/datatables/media/js/*.js', to: 'assets/jquery/js/[name][ext]' },
                     { from: './node_modules/jquery/dist/*.js', to: 'assets/jquery/js/[name][ext]' },
-                    { from: './node_modules/datatables/media/images', to: 'assets/jquery/images' },
-                    // ADD NEW RESOURCE TO BE COPIED HERE IF NEEDED.
+                    { from: './node_modules/datatables/media/images', to: 'assets/jquery/images' }, 
                 ]
             })
         ],
