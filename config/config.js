@@ -17,6 +17,7 @@ module.exports = {
         ROUTES: process.env.ROUTES_PATH || path.join(__dirname, '../routes'),
         VIEWS: process.env.VIEWS_PATH || path.join(__dirname, '../resources'),
         PUBLIC: process.env.PUBLIC_PATH || path.join(__dirname, '../public'),
+        STORAGE: path.join(__dirname, '../public/store'),
     },
     DATABASE: {
         DB_CONNECTION: process.env.DB_CONNECTION || 'mysql',
@@ -41,6 +42,26 @@ module.exports = {
     },
     ROUTES: {
         PREFIX: '/api',
+    },
+    REQUESTS: {
+        ALLOW_HEADERS_LIST: {
+            "Content-Security-Policy": "script-src 'self' https://cdn.ckeditor.com;",
+            // Add new or other headers applicable.
+        }
+    },
+    UPLOADS: {
+        AUTOSAVE: false,
+        AUTORENAME: true,
+        MAX_UPLOADS: 100,
+        MAX_FILE_SIZE: 5 * 1024 * 1024,
+        ALLOWED_FILE_TYPES: [
+            "image/png", 
+            "image/jpeg", 
+            "image/jpg", 
+            "application/pdf"
+        ],
+        PRESERVE_PATH: false,
+        UNIQUE_UPLOAD_NAME: ''
     },
     SESSION: {
         SESSION_NAME: "myexpress.auth_session", // leave empty to default to connect.sid
