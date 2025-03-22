@@ -1,4 +1,5 @@
 .env
+public/assets/
 public/main.js
 public/store
 public/bootstrap
