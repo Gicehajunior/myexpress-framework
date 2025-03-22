@@ -13,6 +13,7 @@
  * GitHub: https://github.com/Gicehajunior
  */
 const express = require('express');
+const { upload } = require('@config/storage');
 const authRoutes = require('@routes/auth'); 
 const DashboardController = require('@app/controllers/other/DashboardController');
 const JournalController = require('@app/controllers/other/JournalController');
