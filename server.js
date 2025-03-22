@@ -94,6 +94,13 @@ app.use(express.static(config.PATHS.PUBLIC, {
   }
 }));
 
+app.use((req, res, next) => {
+  Object.entries(config.REQUESTS.ALLOW_HEADERS_LIST).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+  next();
+});
+
 const getAllDirectories = (dirPath) => {
   let results = [dirPath];
   const items = fs.readdirSync(dirPath, { withFileTypes: true });
