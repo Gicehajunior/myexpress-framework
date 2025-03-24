@@ -1,12 +1,12 @@
 const utility = {
     ucwords: (str) => {
-        return str
+        return str?.length ? str
             .split(/\s+/)
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+            .join(' ') : null;
     },
     ucfirst: (str) => {
-        return str.charAt(0).toUpperCase() + str.slice(1);
+        return str?.length ? str.charAt(0).toUpperCase() + str.slice(1) : null;
     },
     dateToISO8601Formatter: (dateString) => {
         const date = new Date(dateString);
