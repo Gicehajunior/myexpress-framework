@@ -153,3 +153,5 @@ app.use(routes);
     console.log(`Server running at ${config.APP.APP_PORT}`);
   });
 })();
+
+module.exports = app;  // Export for testing purposes
