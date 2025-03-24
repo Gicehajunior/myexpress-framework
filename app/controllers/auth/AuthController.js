@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('@config/config');
 const User = require('@models/User');
 const Util = require('@utils/Util');
+const Exception = require('@config/exceptions');
 
 class AuthController {
     static async register(req, res) {
@@ -20,7 +21,7 @@ class AuthController {
     
             // Check if all fields are present
             if (!fullname || !username || !email || !contact || !password || !confirmPassword) {
-                throw new Error(`All fields are required!`);
+                throw new Exception(400, 'MISSING_FIELDS', 'All fields are required!', 'Validation Error'); 
             }
 
             if (password !== confirmPassword) {
@@ -39,8 +40,15 @@ class AuthController {
             const user = await User.create({ fullname: fullname, username: username, email: email, contact: contact, password: hashedPassword });
             res.status(200).json({ status: 'success', message: 'User registered successfully', redirectUrl: '/login', user });
         } catch (error) {
-            console.error('Error:', error);
-            res.status(500).json({ status: 'error', message: error.message });
+            if (error instanceof Exception) { 
+                console.error('Application Error:', error.message); 
+                if (config.APP.APP_DEBUG) error.mexLogger();
+                res.status(error.status).json({ status: 'error', message: error.message, code: error.code });
+            } else { 
+                console.error('Unexpected Error:', error); 
+                if (config.APP.APP_DEBUG) error.mexLogger();
+                res.status(500).json({ status: 'error', message: 'Something went wrong. Please try again later.' });
+            }
         }
     }
     
