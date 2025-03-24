@@ -27,6 +27,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const Exception = require('@config/exceptions');
 const config = require('@config/config');
 const corsconfig = require('@config/cors');
 const database = require('@config/database');
@@ -43,10 +44,31 @@ app.use(cors({
   origin: corsconfig.ORIGIN,
   credentials: corsconfig.CREDENTIALS
 }));
+
 app.use(helmet());
+
+// Setup Morgan logging for HTTP requests
 if (config.APP.APP_DEBUG) {
-    app.use(morgan('dev'));
-}
+  // Development environment
+  app.use(morgan('dev'));
+} else {
+  // Production environment
+  app.use(morgan('combined'));
+} 
+
+// Sample route to demonstrate error handling
+app.get('/error', (req, res, next) => {
+  const exception = new Exception(500, 'INTERNAL_SERVER_ERROR', 'Something went wrong!');
+  if (config.APP.APP_DEBUG) exception.mexLogger();
+  res.status(500).json({ error: exception.message });
+});
+
+// Use error-handling middleware
+app.use((err, req, res, next) => {
+  const exception = new Exception(500, 'INTERNAL_SERVER_ERROR', err.message);
+  if (config.APP.APP_DEBUG) exception.mexLogger();
+  res.status(500).json({ error: err.message });
+});
 
 // session setup
 app.use(session({
