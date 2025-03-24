@@ -56,13 +56,6 @@ if (config.APP.APP_DEBUG) {
   app.use(morgan('combined'));
 } 
 
-// Sample route to demonstrate error handling
-app.get('/error', (req, res, next) => {
-  const exception = new Exception(500, 'INTERNAL_SERVER_ERROR', 'Something went wrong!');
-  if (config.APP.APP_DEBUG) exception.mexLogger();
-  res.status(500).json({ error: exception.message });
-});
-
 // Use error-handling middleware
 app.use((err, req, res, next) => {
   const exception = new Exception(500, 'INTERNAL_SERVER_ERROR', err.message);
