@@ -7,7 +7,7 @@ const db = require('@config/database');
 
 class UserUtil extends Util {
     constructor() {
-        // 
+        super();
     }
 
     async userExistsById(id) {
@@ -17,6 +17,10 @@ class UserUtil extends Util {
 
     async getUserById(id) {
         return await User.findOne({ where: { id } });
+    } 
+
+    async getAllUsers() {
+        return await User.findAll();
     } 
 }
 

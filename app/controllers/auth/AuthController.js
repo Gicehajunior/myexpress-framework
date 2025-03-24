@@ -43,11 +43,11 @@ class AuthController {
             if (error instanceof Exception) { 
                 console.error('Application Error:', error.message); 
                 if (config.APP.APP_DEBUG) error.mexLogger();
-                res.status(error.status).json({ status: 'error', message: error.message, code: error.code });
+                return res.status(error.status).json({ status: 'error', message: error.message, code: error.code });
             } else { 
                 console.error('Unexpected Error:', error); 
                 if (config.APP.APP_DEBUG) error.mexLogger();
-                res.status(500).json({ status: 'error', message: 'Something went wrong. Please try again later.' });
+                return res.status(500).json({ status: 'error', message: 'Something went wrong. Please try again later.' });
             }
         }
     }
