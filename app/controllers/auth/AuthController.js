@@ -1,9 +1,9 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('@config/config');
-const User = require('@models/User');
-const Util = require('@utils/Util');
-const Exception = require('@config/exceptions');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import config from '@config/config';
+import User from '@models/User';
+import Util from '@utils/Util';
+import Exception from '@config/exceptions';
 
 class AuthController {
     static async register(req, res) {

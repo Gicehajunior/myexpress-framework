@@ -1,4 +1,5 @@
 .env
+.DS_Store
 public/logs
 public/assets/
 public/main.js
