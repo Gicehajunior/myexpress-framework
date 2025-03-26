@@ -19,6 +19,9 @@
  * 
  * Ensure that the configuration files are properly set before starting.
  */
+require("@babel/register")({
+  presets: ["@babel/preset-env"]
+});
 require('module-alias/register');
 const express = require('express');
 const bodyParser = require('body-parser');
