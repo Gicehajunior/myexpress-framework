@@ -25,13 +25,13 @@ class AuthController {
             }
 
             if (password !== confirmPassword) {
-                throw new Error(`Password mismatch error!`);
+                throw new Exception(400, 'VALIDATION_ERROR', `Password mismatch error!`);
             }
     
             // Check if user already exists
             const existingUser = await User.findOne({ where: { email } }); 
             if (existingUser) {
-                throw new Error('Email already registered'); 
+                throw new Exception(400, 'VALIDATION_ERROR', 'Email already registered'); 
             }
             
             // Hash password and create user
@@ -40,14 +40,11 @@ class AuthController {
             const user = await User.create({ fullname: fullname, username: username, email: email, contact: contact, password: hashedPassword });
             res.status(200).json({ status: 'success', message: 'User registered successfully', redirectUrl: '/login', user });
         } catch (error) {
-            if (error instanceof Exception) { 
-                console.error('Application Error:', error.message); 
+            if (error instanceof Exception) {  
                 if (config.APP.APP_DEBUG) error.mexLogger();
                 return res.status(error.status).json({ status: 'error', message: error.message, code: error.code });
-            } else { 
-                console.error('Unexpected Error:', error); 
-                if (config.APP.APP_DEBUG) error.mexLogger();
-                return res.status(500).json({ status: 'error', message: 'Something went wrong. Please try again later.' });
+            } else {   
+                return res.status(500).json({ status: 'error', message: error.message || 'Something went wrong. Please try again later.' });
             }
         }
     }
