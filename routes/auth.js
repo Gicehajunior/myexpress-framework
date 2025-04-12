@@ -1,9 +1,7 @@
-const auth = (router) => {
-    const multer = require('multer');
+const auth = (router) => { 
+    const { upload } = require('@config/storage');
     const AuthController = require('@app/controllers/auth/AuthController');
-    const WebController = require('@app/controllers/other/WebController');
-
-    const upload = multer();
+    const WebController = require('@app/controllers/other/WebController'); 
 
     // login routes
     router.get('/', WebController.index);
