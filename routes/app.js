@@ -15,8 +15,7 @@
 const express = require('express');
 const { upload } = require('@config/storage');
 const authRoutes = require('@routes/auth'); 
-const DashboardController = require('@app/controllers/other/DashboardController');
-const JournalController = require('@app/controllers/other/JournalController');
+const DashboardController = require('@app/controllers/other/DashboardController'); 
 const authMiddleware = require('@app/mwares/authMiddleware');
 
 const router = express.Router();
@@ -25,8 +24,6 @@ const router = express.Router();
 authRoutes(router);
 
 // Add New Routes here...
-router.get('/dashboard', authMiddleware, DashboardController.index);
-router.get('/journals/list', authMiddleware, JournalController.getJournals);
-router.post('/journals/create', authMiddleware, JournalController.createJournal);
+router.get('/dashboard', authMiddleware, DashboardController.index); 
 
 module.exports = router;

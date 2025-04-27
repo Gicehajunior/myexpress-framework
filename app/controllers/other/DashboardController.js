@@ -1,13 +1,13 @@
+const MEX = require('@mex/MEX');
 const jwt = require('jsonwebtoken');
 const config = require('@config/config');
-const User = require('@models/User');
-const Journal = require('@models/Journal');
+const User = require('@models/User'); 
 const UserUtil = require('@utils/UserUtil');
 const mexDtParser = require('@config/mexDtParser');
 const utils = require('@config/utils');
 const Exception = require('@config/exceptions'); 
 
-class DashboardController {
+class DashboardController extends MEX {
     static async index(req, res) { 
         const status = req.session.status ?? null;
         const message = req.session.message ?? null;

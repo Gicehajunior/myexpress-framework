@@ -2,6 +2,7 @@
   "name": "myexpress",
   "version": "1.0.0",
   "main": "server.js",
+  "description": "mex is a lightweight web app boilerplate template framework that provides a fast and flexible starting point for building modern web applications.",
   "scripts": {
     "test": "jest",
     "dev": "nodemon --trace-deprecation server.js",
@@ -25,12 +26,17 @@
   },
   "repository": "https://github.com/Gicehajunior/myexpress-framework",
   "license": "MIT",
-  "description": "",
+  "bin": {
+    "xfixcore": "./xfixcore"
+  },
   "_moduleAliases": {
+    "@mex": "./mex",
     "@app": "./app",
     "@config": "./config",
     "@models": "./app/models",
     "@utils": "./app/utils",
+    "@db": "./config/database",
+    "@services": "./mex/services",
     "@controllers": "./app/controllers",
     "@routes": "./routes"
   },
@@ -69,6 +75,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "helmet": "^8.0.0",
     "jquery": "^3.7.1",
+    "js-beautify": "^1.15.4",
     "jsonwebtoken": "^9.0.2",
     "minimist": "^1.2.8",
     "module-alias": "^2.2.3",

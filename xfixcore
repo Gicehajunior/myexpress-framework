@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+require("@babel/register")({
+    presets: ["@babel/preset-env"]
+});
+require('module-alias/register');
+const XfixCoreCLI = require('@services/XfixCoreCLI');
+
+// Create and call the cli respectively.
+(async () => {
+    const cli = await XfixCoreCLI.create();
+    cli.registerAllCommands();
+    cli.parseArguments();
+})();

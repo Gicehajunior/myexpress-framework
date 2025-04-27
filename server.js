@@ -33,7 +33,7 @@ const path = require('path');
 const Exception = require('@config/exceptions');
 const config = require('@config/config');
 const corsconfig = require('@config/cors');
-const database = require('@config/database');
+const database = require('@db/database');
 const routes = require("@routes/app"); 
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -144,7 +144,7 @@ app.use(routes);
 
 // Start Server only if DB is ready
 (async () => {
-  await database.init(); 
+  await database.getSequelize(); 
   app.listen(config.APP.APP_PORT, () => {
     console.log(`Server running at ${config.APP.APP_PORT}`);
   });
