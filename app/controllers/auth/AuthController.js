@@ -1,3 +1,4 @@
+import MEX from '@mex/MEX';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '@config/config';
@@ -5,7 +6,7 @@ import User from '@models/User';
 import Util from '@utils/Util';
 import Exception from '@config/exceptions';
 
-class AuthController {
+class AuthController extends MEX {
     static async register(req, res) {
         return res.render("auth/register", { title: "Register Page" });
     }
