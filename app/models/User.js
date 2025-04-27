@@ -1,37 +1,45 @@
-const { DataTypes, Model } = require('sequelize');
-const config = require('@config/config');
-const db = require('@config/database');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+import jwt from 'jsonwebtoken';
+import config from '@config/config';
+import AppModel from '@models/AppModel'; 
 
-class User extends Model {
-    static tableName = 'users';
+class User extends AppModel {
+    static table = 'users';
+
+    static fields = {
+        fullname: 'STRING',
+        username: 'STRING',
+        email: 'STRING',
+        password: 'STRING',
+        contact: 'STRING', 
+        role: 'STRING'
+    };
+
+    static nullableFields = [
+        'contact', 'role'
+    ];
     
-    async updateSession(req) { 
-        const token = jwt.sign(req.session.user, config.APP.JWT_SECRET, { expiresIn: '1h' }); 
+    /**
+     * Updates the session with a JWT token.
+     * 
+     * @param {Object} req - The request object
+     * @returns {boolean} - Whether the session update was successful
+     */
+    async updateSession(req) {
+        const token = jwt.sign(req.session.user, config.APP.JWT_SECRET, { expiresIn: config.AUTH.TOKEN_EXPIRY });
         req.session.token = token || null;
-
         return !!req.session.token;
-    }
+    } 
 
-    static query(sequelize) {  
-        User.init({
-            id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-            fullname: { type: DataTypes.STRING, allowNull: true, unique: false },
-            username: { type: DataTypes.STRING, allowNull: true, unique: false },
-            email: { type: DataTypes.STRING, allowNull: true, unique: false },
-            contact: { type: DataTypes.STRING, allowNull: true, unique: false },
-            password: { type: DataTypes.STRING, allowNull: true },
-            role: { type: DataTypes.STRING, allowNull: true },
-        }, { 
-            sequelize,  
-            timestamps: true,
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
-            tableName: User.tableName,
-        }); 
+    /**
+     * Defines all model associations and relationships.
+     * This method is automatically called after all models are initialized.
+     * 
+     * @param {Object.<string, Model>} models - Dictionary of all initialized models,
+     *   keyed by model name. Use this to reference other models when defining associations.
+     */
+    static associate(models) {
+        // Define all associations here
     }
 }
 
-User.query(db.getSequelize());
 module.exports = User;
