@@ -53,6 +53,7 @@ module.exports = {
     },
     REQUESTS: {
         ALLOW_HEADERS_LIST: {
+            'Content-Security-Policy': "script-src 'self' https://cdn.ckeditor.com"
             // Add new or other headers applicable.
         }
     },
