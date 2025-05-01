@@ -22,10 +22,16 @@ npm install
 
 ## Running the Framework
 
-### Development Mode
+### Build the assets
 
 ```sh
 npm run build
+```
+
+### Development Mode
+
+```sh
+npm run dev
 ```
 
 ### Production Mode
