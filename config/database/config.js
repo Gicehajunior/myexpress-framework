@@ -21,6 +21,7 @@ module.exports = {
         DB_USER: config.DATABASE.DB_USER || 'root',
         DB_PASS: config.DATABASE.DB_PASS || '',
         DB_SSL: config.DATABASE.DB_SSL || false, // Use SSL connection or not
+        DB_UNAUTHORIZATION_CONTRAINT: config.DATABASE.DB_UNAUTHORIZATION_CONTRAINT || false, // Upon DB SSL Settings
         POOL: {
             max: 10,
             min: 0,
@@ -55,6 +56,7 @@ module.exports = {
         DB_USER: config.DATABASE.DB_USER || 'user',
         DB_PASS: config.DATABASE.DB_PASS || 'password',
         DB_SSL: config.DATABASE.DB_SSL || true,
+        DB_UNAUTHORIZATION_CONTRAINT: config.DATABASE.DB_UNAUTHORIZATION_CONTRAINT || false, // Upon DB SSL Settings
         POOL: {
             max: 10,
             min: 0,
