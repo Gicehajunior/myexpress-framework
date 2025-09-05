@@ -95,8 +95,8 @@ class Database {
         // SSL options for MySQL/Postgres connections
         if (dbConfig.DB_SSL) {
             sequelizeOptions.dialectOptions.ssl = {
-                require: true,
-                rejectUnauthorized: false
+                require: dbConfig.DB_SSL || true,
+                rejectUnauthorized: dbConfig.DB_UNAUTHORIZATION_CONTRAINT || true
             };
         }
 
